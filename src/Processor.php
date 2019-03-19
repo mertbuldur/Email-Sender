@@ -13,7 +13,27 @@ class Processor  implements ProcessInterface
    public $db;
     public function __construct($host,$dbname,$uname,$upass)
     {
-        $this->db = new PDO("mysql:host=".$host.";dbname=".$dbname.";charset=utf8",$uname,$upass);
+        try {
+            $this->db = new PDO("mysql:host=" . $host . ";dbname=" . $dbname . ";charset=utf8", $uname, $upass);
+            $sql = "CREATE TABLE email (
+                        id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
+                        email VARCHAR(255) NOT NULL,
+                        text TEXT NOT NULL,
+                        subject VARCHAR(255),
+                        sendDateTime DATETIME
+                  )";
+
+            if($this->db->query("show tables like email")->rowcount() ==0) {
+                $this->db->query($sql);
+            }
+
+        }
+        catch (\PDOException $e)
+        {
+            echo $e->getMessage();
+        }
+
+
     }
 
     public function add($email, $subject, $text, $sendDateTime = null)
