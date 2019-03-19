@@ -1,0 +1,16 @@
+{
+  "name":"buldurmert/email-task",
+  "description": "Basic Email Tasking  helper",
+  "authors": [{
+    "name": "Mert Buldur",
+    "email": "buldurmert@gmail.com"
+  }],
+  "require": {
+    "php": ">= 5"
+  },
+  "autoload": {
+    "psr-4": {
+      "EmailTask\\": "src//"
+    }
+  }
+}
