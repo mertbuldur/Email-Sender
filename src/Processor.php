@@ -23,7 +23,7 @@ class Processor  implements ProcessInterface
                         sendDateTime DATETIME
                   )";
 
-            if($this->tableExists("email")) {
+            if(!$this->tableExists("email")) {
                 $this->db->query($sql);
             }
 
@@ -75,7 +75,7 @@ class Processor  implements ProcessInterface
         }
     }
 
-    function tableExists($table) {
+    public function tableExists($table) {
 
         // Try a select statement against the table
         // Run it in try/catch in case PDO is in ERRMODE_EXCEPTION.
