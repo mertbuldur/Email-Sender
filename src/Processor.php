@@ -10,7 +10,7 @@ use \PDO;
 
 class Processor  implements ProcessInterface
 {
-   public $db;
+    public $db;
     public function __construct($host,$dbname,$uname,$upass)
     {
         try {
@@ -23,7 +23,7 @@ class Processor  implements ProcessInterface
                         sendDateTime DATETIME
                   )";
 
-            if($this->db->query("show tables like email")->rowcount() ==0) {
+            if($this->tableExists("email")) {
                 $this->db->query($sql);
             }
 
@@ -73,6 +73,21 @@ class Processor  implements ProcessInterface
         {
             echo "Task Yok";
         }
+    }
+
+    function tableExists($table) {
+
+        // Try a select statement against the table
+        // Run it in try/catch in case PDO is in ERRMODE_EXCEPTION.
+        try {
+            $result = $this->db->query("SELECT 1 FROM $table LIMIT 1");
+        } catch (Exception $e) {
+            // We got an exception == table not found
+            return FALSE;
+        }
+
+        // Result is either boolean FALSE (no table found) or PDOStatement Object (table found)
+        return $result !== FALSE;
     }
 
 }
